@@ -1,0 +1,17 @@
+services:
+  postgres:
+    container_name: test_db
+    image: 'postgres:latest'
+    ports:
+      - "5438:5432"
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=username
+      - POSTGRES_DB=test_db
+      - PGDATA=/data/postgres
+    volumes:
+      - postgres:/data/postgres
+    restart: always
+
+volumes:
+  postgres:

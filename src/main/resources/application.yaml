@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: banking_service_exercise_01
+
+  datasource:
+    url: jdbc:postgresql://localhost:5438/test_db
+    username: username
+    password: password
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: yian.choi05@gmail.com
+    password: guwcsrjgggccnppu
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML
+    encoding: utf-8
+    cache: false
+
+yian:
+  openapi:
+    dev-url: http://localhost:8080
