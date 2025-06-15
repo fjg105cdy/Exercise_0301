@@ -7,4 +7,5 @@ public interface EmailService {
             String username,
             String subject
     );
+    void sendEmailVerificationCode(String to, String code);
 }

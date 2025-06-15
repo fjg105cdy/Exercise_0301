@@ -13,5 +13,12 @@ services:
       - postgres:/data/postgres
     restart: always
 
+  banking_redis:
+    container_name: bankingex_redis
+    image: redis:latest
+    ports:
+      - "6378:63798"
+    restart: unless-stopped
+
 volumes:
   postgres:

@@ -1,12 +1,11 @@
 package com.yian.banking_service_exercise_01.controllers;
 
-import com.yian.banking_service_exercise_01.dtos.PageResponseDTO;
-import com.yian.banking_service_exercise_01.dtos.UserRequestDTO;
-import com.yian.banking_service_exercise_01.dtos.UserResponseDTO;
+import com.yian.banking_service_exercise_01.dtos.*;
 import com.yian.banking_service_exercise_01.services.EmailService;
 import com.yian.banking_service_exercise_01.services.UserService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.boot.autoconfigure.graphql.GraphQlProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -71,6 +70,31 @@ public class UserController {
         return ResponseEntity.ok(pageResponseDTO);
     }
 
+    @PostMapping("/send/email")
+    public ResponseEntity<ApiResponseDTO<Boolean>> sendEmail(
+            @RequestBody @Valid EmailRequestDTO emailRequestDTO
+    ){
+        userService.sendEmailVerification(emailRequestDTO);
 
+        ApiResponseDTO<Boolean> response = ApiResponseDTO.<Boolean>builder()
+                .statusCode(HttpStatus.OK.value())
+                .message("Email sent successfully")
+                .data(true)
+                .build();
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/verify/email")
+    public ResponseEntity<ApiResponseDTO<Boolean>> verifyEmail(
+            @RequestBody @Valid EmailVerifyRequestDTO emailVerifyRequestDTO
+
+    ){
+        boolean verified = userService.verifyEmailCode(emailVerifyRequestDTO);
+        ApiResponseDTO<Boolean> response = ApiResponseDTO.<Boolean>builder()
+                .statusCode(HttpStatus.OK.value())
+                .message("successful verify email")
+                .build();
+        return ResponseEntity.ok(response);
+    }
 
 }

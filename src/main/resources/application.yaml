@@ -28,6 +28,17 @@ spring:
           auth: true
           starttls:
             enable: true
+  redis:
+    host: localhost
+    port: 6378
+    timeout: 60000
+    lettuce:
+      pool:
+      max-active: 8
+      max-idle: 8
+      min-idle: 0
+      max-wait: 10000
+
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
