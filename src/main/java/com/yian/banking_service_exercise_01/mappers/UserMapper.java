@@ -4,17 +4,19 @@ import com.yian.banking_service_exercise_01.dtos.UserRequestDTO;
 import com.yian.banking_service_exercise_01.dtos.UserResponseDTO;
 import com.yian.banking_service_exercise_01.entities.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 
 public class UserMapper {
+    private final PasswordEncoder passwordEncoder;
     public User mapToUserEntity(UserRequestDTO userRequestDTO){
         return User.builder()
                 .username(userRequestDTO.getUsername())
                 .email(userRequestDTO.getEmail())
-                .password(userRequestDTO.getPassword())
+                .password(passwordEncoder.encode(userRequestDTO.getPassword()))
                 .build();
     }
 

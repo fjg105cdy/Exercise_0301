@@ -4,6 +4,7 @@ import com.yian.banking_service_exercise_01.dtos.*;
 import com.yian.banking_service_exercise_01.entities.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService {
     UserResponseDTO createUser(UserRequestDTO userRequestDTO);
@@ -16,4 +17,6 @@ public interface UserService {
 
     String sendEmailVerification(EmailRequestDTO emailRequestDTO);
     boolean verifyEmailCode(EmailVerifyRequestDTO emailVerifyRequestDTO);
+
+    Optional<User> findByEmail(String email);
 }
