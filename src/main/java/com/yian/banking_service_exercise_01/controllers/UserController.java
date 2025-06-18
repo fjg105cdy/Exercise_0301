@@ -1,11 +1,16 @@
 package com.yian.banking_service_exercise_01.controllers;
 
-import com.yian.banking_service_exercise_01.dtos.*;
+import com.yian.banking_service_exercise_01.dtos.common.ApiResponseDTO;
+import com.yian.banking_service_exercise_01.dtos.common.EmailRequestDTO;
+import com.yian.banking_service_exercise_01.dtos.auth.EmailVerifyRequestDTO;
+import com.yian.banking_service_exercise_01.dtos.common.PageResponseDTO;
+import com.yian.banking_service_exercise_01.dtos.user.UserRequestDTO;
+import com.yian.banking_service_exercise_01.dtos.user.UserResponseDTO;
+import com.yian.banking_service_exercise_01.entities.User;
 import com.yian.banking_service_exercise_01.services.EmailService;
 import com.yian.banking_service_exercise_01.services.UserService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.boot.autoconfigure.graphql.GraphQlProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,12 +26,17 @@ public class UserController {
     private final EmailService emailService;
 
     @GetMapping("/all")
-    public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
+    public ResponseEntity<ApiResponseDTO<List<UserResponseDTO>>> getAllUsers() {
         List<UserResponseDTO> users = userService.getAllUsers();
-        return ResponseEntity.ok(users);
+        ApiResponseDTO<List<UserResponseDTO>> response = ApiResponseDTO.<List<UserResponseDTO>>builder()
+                .statusCode(HttpStatus.OK.value())
+                .message("get all users")
+                .data(users)
+                .build();
+        return ResponseEntity.ok(response);
     }
     @PostMapping("/signup")
-    public ResponseEntity<UserResponseDTO> createUser(
+    public ResponseEntity<ApiResponseDTO<UserResponseDTO>> createUser(
             @Valid @RequestBody UserRequestDTO userRequestDTO
     ) {
         UserResponseDTO userResponseDTO = userService.createUser(userRequestDTO);
@@ -36,38 +46,62 @@ public class UserController {
                         userRequestDTO.getUsername(),
                         "Welcome " + userRequestDTO.getUsername()
                 );
-        return new ResponseEntity<>(userResponseDTO, HttpStatus.CREATED);
-
+        ApiResponseDTO<UserResponseDTO> response = ApiResponseDTO.<UserResponseDTO>builder()
+                .statusCode(HttpStatus.CREATED.value())
+                .message("created user")
+                .data(userResponseDTO)
+                .build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> getUserById(@PathVariable String id){
+    public ResponseEntity<ApiResponseDTO<UserResponseDTO>> getUserById(@PathVariable String id){
         UserResponseDTO user = userService.getUserById(id);
-        return ResponseEntity.ok(user);
+        ApiResponseDTO<UserResponseDTO> response = ApiResponseDTO.<UserResponseDTO>builder()
+                .statusCode(HttpStatus.OK.value())
+                .message("got user")
+                .data(user)
+                .build();
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping ("/{id}")
-    public ResponseEntity<UserResponseDTO> updateUser(
+    public ResponseEntity<ApiResponseDTO<UserResponseDTO>> updateUser(
             @PathVariable String id,
             @RequestBody UserRequestDTO userRequestDTO) {
         UserResponseDTO updatedUser = userService.updateUser(id, userRequestDTO);
-        return ResponseEntity.ok(updatedUser);
+        ApiResponseDTO<UserResponseDTO> response = ApiResponseDTO.<UserResponseDTO>builder()
+                .statusCode(HttpStatus.OK.value())
+                .message("updated user")
+                .data(updatedUser)
+                .build();
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteUserById(@PathVariable String id){
+    public ResponseEntity<ApiResponseDTO<String>> deleteUserById(@PathVariable String id){
         userService.deleteUser(id);
-        return ResponseEntity.ok("Deleted user successfully.");
+        ApiResponseDTO<String> response = ApiResponseDTO.<String>builder()
+                .statusCode(HttpStatus.OK.value())
+                .message("deleted user")
+                .data("deleted")
+                .build();
+        return ResponseEntity.ok(response);
     }
     @GetMapping("/pagination")
-    public ResponseEntity<PageResponseDTO> getUsersWithPagination(
+    public ResponseEntity<ApiResponseDTO<PageResponseDTO>> getUsersWithPagination(
             @RequestParam(defaultValue = "1") int pageNo,
             @RequestParam(defaultValue="10") int pageSize,
             @RequestParam(defaultValue = "name") String sortBy,
             @RequestParam(defaultValue = "asc") String sortDir,
             @RequestParam(required=false) String searchKeyword
     ){PageResponseDTO pageResponseDTO = userService.getUsersWithPagination(pageNo,pageSize,sortBy,sortDir,searchKeyword);
-        return ResponseEntity.ok(pageResponseDTO);
+        ApiResponseDTO<PageResponseDTO> response = ApiResponseDTO.<PageResponseDTO>builder()
+                .statusCode(HttpStatus.OK.value())
+                .message("got users data")
+                .data(pageResponseDTO)
+                .build();
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/send/email")

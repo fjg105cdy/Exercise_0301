@@ -1,7 +1,6 @@
 package com.yian.banking_service_exercise_01.exceptions;
 
-import com.yian.banking_service_exercise_01.dtos.ErrorDetails;
-import org.apache.coyote.Response;
+import com.yian.banking_service_exercise_01.dtos.common.ErrorDetails;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

@@ -1,6 +1,10 @@
 package com.yian.banking_service_exercise_01.services.impl;
 
-import com.yian.banking_service_exercise_01.dtos.*;
+import com.yian.banking_service_exercise_01.dtos.common.EmailRequestDTO;
+import com.yian.banking_service_exercise_01.dtos.auth.EmailVerifyRequestDTO;
+import com.yian.banking_service_exercise_01.dtos.common.PageResponseDTO;
+import com.yian.banking_service_exercise_01.dtos.user.UserRequestDTO;
+import com.yian.banking_service_exercise_01.dtos.user.UserResponseDTO;
 import com.yian.banking_service_exercise_01.entities.User;
 import com.yian.banking_service_exercise_01.exceptions.ResourceNotFoundException;
 import com.yian.banking_service_exercise_01.mappers.UserMapper;

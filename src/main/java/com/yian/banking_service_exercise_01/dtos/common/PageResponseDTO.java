@@ -1,5 +1,6 @@
-package com.yian.banking_service_exercise_01.dtos;
+package com.yian.banking_service_exercise_01.dtos.common;
 
+import com.yian.banking_service_exercise_01.dtos.user.UserResponseDTO;
 import lombok.*;
 
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
 @Builder
 public class PageResponseDTO {
     private List<UserResponseDTO> body;
-    private Long totalElements;
+    private long totalElements;
     private int totalPages;
     private int pageNo;
     private int pageSize;

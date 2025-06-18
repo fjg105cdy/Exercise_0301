@@ -1,9 +1,8 @@
-package com.yian.banking_service_exercise_01.dtos;
+package com.yian.banking_service_exercise_01.dtos.user;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import jdk.jfr.Description;
 import lombok.*;
 
 @Getter

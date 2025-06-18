@@ -1,7 +1,7 @@
 package com.yian.banking_service_exercise_01.mappers;
 
-import com.yian.banking_service_exercise_01.dtos.UserRequestDTO;
-import com.yian.banking_service_exercise_01.dtos.UserResponseDTO;
+import com.yian.banking_service_exercise_01.dtos.user.UserRequestDTO;
+import com.yian.banking_service_exercise_01.dtos.user.UserResponseDTO;
 import com.yian.banking_service_exercise_01.entities.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

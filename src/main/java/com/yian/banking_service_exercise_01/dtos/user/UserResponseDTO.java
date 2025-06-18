@@ -1,4 +1,4 @@
-package com.yian.banking_service_exercise_01.dtos;
+package com.yian.banking_service_exercise_01.dtos.user;
 
 import lombok.*;
 

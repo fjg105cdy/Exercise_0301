@@ -1,12 +1,11 @@
 package com.yian.banking_service_exercise_01.controllers;
 
-import com.yian.banking_service_exercise_01.dtos.ApiResponseDTO;
-import com.yian.banking_service_exercise_01.dtos.AuthRequestDTO;
-import com.yian.banking_service_exercise_01.dtos.AuthResponseDTO;
+import com.yian.banking_service_exercise_01.dtos.common.ApiResponseDTO;
+import com.yian.banking_service_exercise_01.dtos.auth.AuthRequestDTO;
+import com.yian.banking_service_exercise_01.dtos.auth.AuthResponseDTO;
 import com.yian.banking_service_exercise_01.entities.User;
 import com.yian.banking_service_exercise_01.services.JwtService;
 import com.yian.banking_service_exercise_01.services.UserService;
-import io.swagger.v3.oas.models.responses.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

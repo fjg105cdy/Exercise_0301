@@ -59,6 +59,7 @@ public class SecurityConfiguration {
                 .disable()
                 .authorizeHttpRequests((authorize) -> authorize
                     .requestMatchers(
+                            "/api/v1/products/**",
                             "/api/v1/users/signup",
                             "/api/v1/auth/login",
                             "/api/v1/users",
