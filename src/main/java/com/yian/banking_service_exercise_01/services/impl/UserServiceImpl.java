@@ -1,5 +1,7 @@
 package com.yian.banking_service_exercise_01.services.impl;
 
+import com.yian.banking_service_exercise_01.dtos.auth.AuthRequestDTO;
+import com.yian.banking_service_exercise_01.dtos.auth.AuthResponseDTO;
 import com.yian.banking_service_exercise_01.dtos.common.EmailRequestDTO;
 import com.yian.banking_service_exercise_01.dtos.auth.EmailVerifyRequestDTO;
 import com.yian.banking_service_exercise_01.dtos.common.PageResponseDTO;
@@ -10,6 +12,7 @@ import com.yian.banking_service_exercise_01.exceptions.ResourceNotFoundException
 import com.yian.banking_service_exercise_01.mappers.UserMapper;
 import com.yian.banking_service_exercise_01.repositories.UserRepository;
 import com.yian.banking_service_exercise_01.services.EmailService;
+import com.yian.banking_service_exercise_01.services.JwtService;
 import com.yian.banking_service_exercise_01.services.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +21,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,7 +41,9 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final EmailService emailService;
+    private final JwtService jwtService;
     private final RedisTemplate<Object, Object> redisTemplate;
+    private final AuthenticationManager authenticationManager;
 
     @Override
     public UserResponseDTO createUser(UserRequestDTO userRequestDTO) {
@@ -53,11 +64,46 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public AuthResponseDTO login(AuthRequestDTO authRequestDTO) {
+        Authentication authentication
+                = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(authRequestDTO.getEmail(), authRequestDTO.getPassword())
+        );
+        if (authentication.isAuthenticated()) {
+            User user = findByEmail(authRequestDTO.getEmail())
+                    .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+            String accessToken = jwtService.generateToken(user.getEmail());
+            String refreshToken = jwtService.generateToken(user.getEmail());
+
+            return AuthResponseDTO.builder()
+                    .accessToken(accessToken)
+                    .refreshToken(refreshToken)
+                    .build();
+
+        } else {
+            throw new UsernameNotFoundException("User not found");
+        }
+
+    }
+
+
+    @Override
     public List<UserResponseDTO> getAllUsers() {
         List<User> users = userRepository.findAll();
         return users.stream()
                 .map(userMapper::mapToUserResponseDTO)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public UserResponseDTO getUserInfoByToken() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String emailForAccessToken = userDetails.getUsername();
+        User user = findByEmail(emailForAccessToken)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        return userMapper.mapToUserResponseDTO(user);
     }
 
     @Override

@@ -1,5 +1,8 @@
 package com.yian.banking_service_exercise_01.config;
 
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
@@ -8,7 +11,15 @@ import org.springframework.beans.factory.annotation.Value;
 import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.context.annotation.Bean;
 
+import java.security.Security;
 import java.util.List;
+
+@SecurityScheme(
+        name = "Bearer Token",
+        type = SecuritySchemeType.APIKEY,
+        in = SecuritySchemeIn.HEADER,
+        paramName = "Authorization"
+)
 
 public class OpenAPIConfig {
     @Value("${yian.openapi.dev-url}")

@@ -1,5 +1,7 @@
 package com.yian.banking_service_exercise_01.services;
 
+import com.yian.banking_service_exercise_01.dtos.auth.AuthRequestDTO;
+import com.yian.banking_service_exercise_01.dtos.auth.AuthResponseDTO;
 import com.yian.banking_service_exercise_01.dtos.common.EmailRequestDTO;
 import com.yian.banking_service_exercise_01.dtos.auth.EmailVerifyRequestDTO;
 import com.yian.banking_service_exercise_01.dtos.common.PageResponseDTO;
@@ -12,7 +14,9 @@ import java.util.Optional;
 
 public interface UserService {
     UserResponseDTO createUser(UserRequestDTO userRequestDTO);
+    AuthResponseDTO login(AuthRequestDTO authRequestDTO);
     List<UserResponseDTO> getAllUsers();
+    UserResponseDTO getUserInfoByToken();
     UserResponseDTO getUserByEmail(String email);
     UserResponseDTO getUserById(String id);
     UserResponseDTO updateUser(String id, UserRequestDTO userRequestDTO);

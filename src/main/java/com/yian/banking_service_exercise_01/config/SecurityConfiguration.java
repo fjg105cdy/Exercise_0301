@@ -61,7 +61,8 @@ public class SecurityConfiguration {
                     .requestMatchers(
                             "/api/v1/products/**",
                             "/api/v1/users/signup",
-                            "/api/v1/auth/login",
+                            "/api/v1/auth/me",
+                            "/api/v1/auth/**",
                             "/api/v1/users",
                             "/v3/api-docs/**",
                             "/swagger-ui/**",
