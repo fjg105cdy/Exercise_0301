@@ -16,9 +16,6 @@ import java.util.Set;
 @SuperBuilder
 @Table(name="USERS")
 public class User extends AbstractEntity {
-    @Id
-    @UuidGenerator
-    private String id;
     @Column(nullable = false)
     private String username;
     @Column(nullable = false,unique = true)
